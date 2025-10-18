@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFundi Icon Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #02007B 0%, #1a1a9f 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #F3B14E;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 48px;
+      font-size: 18px;
+    }
+
+    .preview-section {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .preview-item {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .preview-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .preview-item canvas {
+      display: block;
+      margin: 0 auto 16px;
+      border-radius: 20%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .preview-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #02007B;
+      margin-bottom: 4px;
+    }
+
+    .preview-size {
+      font-size: 12px;
+      color: #6b6b6b;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    button {
+      background: #F3B14E;
+      color: #02007B;
+      border: none;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(243, 177, 78, 0.4);
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(243, 177, 78, 0.5);
+      background: #f5ba5d;
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.secondary {
+      background: #B1CB40;
+    }
+
+    button.secondary:hover {
+      background: #c0d660;
+    }
+
+    .instructions {
+      background: rgba(177, 203, 64, 0.15);
+      border-left: 4px solid #B1CB40;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+
+    .instructions h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #B1CB40;
+    }
+
+    .instructions ol {
+      margin-left: 24px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .instructions li {
+      margin-bottom: 8px;
+    }
+
+    .status {
+      text-align: center;
+      padding: 16px;
+      margin-top: 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .status.success {
+      background: rgba(177, 203, 64, 0.2);
+      color: #B1CB40;
+      display: block;
+    }
+
+    .status.error {
+      background: rgba(212, 24, 61, 0.2);
+      color: #ff6b88;
+      display: block;
+    }
+
+    .shortcut-icons {
+      margin-top: 48px;
+    }
+
+    .shortcut-icons h3 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      color: #F3B14E;
+    }
+
+    .shortcut-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 32px;
+      }
+
+      .preview-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 16px;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚜 AgriFundi Icon Generator</h1>
+    <p class="subtitle">Generate all PWA icons in the correct sizes</p>
+
+    <div class="instructions">
+      <h2>📱 How to Use</h2>
+      <ol>
+        <li>Click "Generate All Icons" to create all required sizes</li>
+        <li>Click "Download All Icons" to save them as a ZIP file</li>
+        <li>Or click individual "Download" buttons to save specific sizes</li>
+        <li>Place the downloaded icons in the <code>/public/icons/</code> folder</li>
+        <li>Your PWA will be ready to install! 🎉</li>
+      </ol>
+    </div>
+
+    <div class="controls">
+      <button onclick="generateAllIcons()">✨ Generate All Icons</button>
+      <button onclick="downloadAllIcons()" class="secondary">⬇️ Download All Icons (ZIP)</button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="preview-section">
+      <h2 style="margin-bottom: 8px; font-size: 28px;">App Icons</h2>
+      <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 0;">Required for PWA installation</p>
+      <div class="preview-grid" id="iconGrid"></div>
+    </div>
+
+    <div class="preview-section shortcut-icons">
+      <h3>App Shortcuts Icons</h3>
+      <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 0;">Optional: For long-press quick actions</p>
+      <div class="shortcut-grid" id="shortcutGrid"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script>
+    const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+    const canvases = {};
+
+    // Shortcut icons configuration
+    const shortcuts = [
+      { name: 'work-orders', label: 'Work Orders', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
+      { name: 'tractors', label: 'Tractors', icon: 'M8 21h8M12 3v4m0 0L8 3m4 4l4-4M4 17h16M6 21V10a2 2 0 012-2h8a2 2 0 012 2v11' },
+      { name: 'services', label: 'Services', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z' },
+    ];
+
+    function createIconCanvas(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // Background with rounded corners
+      const radius = size * 0.2; // 20% radius for rounded corners
+      ctx.fillStyle = '#F3B14E';
+      roundRect(ctx, 0, 0, size, size, radius);
+      ctx.fill();
+
+      // Border effect (subtle)
+      ctx.strokeStyle = 'rgba(243, 177, 78, 0.3)';
+      ctx.lineWidth = size * 0.016;
+      roundRect(ctx, size * 0.032, size * 0.032, size * 0.936, size * 0.936, radius * 0.95);
+      ctx.stroke();
+
+      // Main icon - growth chart
+      ctx.strokeStyle = '#02007B';
+      ctx.lineWidth = size * 0.051;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      const centerX = size / 2;
+      const centerY = size / 2;
+      const scale = size / 512;
+
+      ctx.beginPath();
+      // Top horizontal line
+      ctx.moveTo(centerX + 42 * scale, centerY - 84 * scale);
+      ctx.lineTo(centerX + 126 * scale, centerY - 84 * scale);
+      // Vertical line down
+      ctx.lineTo(centerX + 126 * scale, centerY);
+      // Diagonal line
+      ctx.moveTo(centerX + 126 * scale, centerY - 84 * scale);
+      ctx.lineTo(centerX - 42 * scale, centerY + 84 * scale);
+      // Bottom L-shape
+      ctx.moveTo(centerX - 126 * scale, centerY - 126 * scale);
+      ctx.lineTo(centerX - 126 * scale, centerY + 126 * scale);
+      ctx.lineTo(centerX + 252 * scale, centerY + 126 * scale);
+      ctx.stroke();
+
+      return canvas;
+    }
+
+    function createShortcutCanvas(size, iconPath) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // Background
+      const radius = size * 0.2;
+      ctx.fillStyle = '#02007B';
+      roundRect(ctx, 0, 0, size, size, radius);
+      ctx.fill();
+
+      // Icon in center
+      ctx.strokeStyle = '#F3B14E';
+      ctx.lineWidth = size * 0.042;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      const scale = size / 96;
+      const centerX = size / 2;
+      const centerY = size / 2;
+
+      // Draw icon from path (simplified version)
+      ctx.translate(centerX - 12 * scale, centerY - 12 * scale);
+      ctx.scale(scale, scale);
+      
+      // Parse and draw the SVG path (this is simplified)
+      const path = new Path2D(iconPath);
+      ctx.stroke(path);
+
+      return canvas;
+    }
+
+    function roundRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    function generateAllIcons() {
+      const grid = document.getElementById('iconGrid');
+      const shortcutGrid = document.getElementById('shortcutGrid');
+      grid.innerHTML = '';
+      shortcutGrid.innerHTML = '';
+
+      // Generate main app icons
+      sizes.forEach(size => {
+        const canvas = createIconCanvas(size);
+        canvases[`icon-${size}x${size}`] = canvas;
+
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        
+        const displayCanvas = canvas.cloneNode(true);
+        const displaySize = Math.min(size, 120);
+        displayCanvas.style.width = displaySize + 'px';
+        displayCanvas.style.height = displaySize + 'px';
+        
+        item.innerHTML = `
+          <div class="preview-label">icon-${size}x${size}.png</div>
+          <div class="preview-size">${size} × ${size}px</div>
+        `;
+        item.insertBefore(displayCanvas, item.firstChild);
+        
+        const btn = document.createElement('button');
+        btn.textContent = 'Download';
+        btn.style.padding = '8px 16px';
+        btn.style.fontSize = '14px';
+        btn.style.marginTop = '12px';
+        btn.onclick = () => downloadIcon(canvas, `icon-${size}x${size}.png`);
+        item.appendChild(btn);
+        
+        grid.appendChild(item);
+      });
+
+      // Generate shortcut icons (96x96)
+      shortcuts.forEach(shortcut => {
+        const canvas = createShortcutCanvas(96, shortcut.icon);
+        canvases[`shortcut-${shortcut.name}`] = canvas;
+
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        
+        const displayCanvas = canvas.cloneNode(true);
+        displayCanvas.style.width = '96px';
+        displayCanvas.style.height = '96px';
+        
+        item.innerHTML = `
+          <div class="preview-label">${shortcut.label}</div>
+          <div class="preview-size">96 × 96px</div>
+        `;
+        item.insertBefore(displayCanvas, item.firstChild);
+        
+        const btn = document.createElement('button');
+        btn.textContent = 'Download';
+        btn.style.padding = '8px 16px';
+        btn.style.fontSize = '14px';
+        btn.style.marginTop = '12px';
+        btn.onclick = () => downloadIcon(canvas, `shortcut-${shortcut.name}.png`);
+        item.appendChild(btn);
+        
+        shortcutGrid.appendChild(item);
+      });
+
+      showStatus('✅ All icons generated successfully!', 'success');
+    }
+
+    function downloadIcon(canvas, filename) {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    async function downloadAllIcons() {
+      if (Object.keys(canvases).length === 0) {
+        showStatus('⚠️ Please generate icons first!', 'error');
+        return;
+      }
+
+      const zip = new JSZip();
+      const iconsFolder = zip.folder('icons');
+
+      // Convert all canvases to blobs and add to ZIP
+      const promises = Object.entries(canvases).map(([name, canvas]) => {
+        return new Promise(resolve => {
+          canvas.toBlob(blob => {
+            iconsFolder.file(`${name}.png`, blob);
+            resolve();
+          }, 'image/png');
+        });
+      });
+
+      await Promise.all(promises);
+
+      // Generate and download ZIP
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'agrifundi-icons.zip';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      showStatus('✅ All icons downloaded as ZIP!', 'success');
+    }
+
+    function showStatus(message, type) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = 'status ' + type;
+      
+      setTimeout(() => {
+        status.className = 'status';
+      }, 5000);
+    }
+
+    // Auto-generate on page load
+    window.addEventListener('load', () => {
+      setTimeout(generateAllIcons, 500);
+    });
+  </script>
+</body>
+</html>

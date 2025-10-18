@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFundi PWA Setup</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #02007B 0%, #1a1a9f 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      background: #F3B14E;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo svg {
+      width: 56px;
+      height: 56px;
+      stroke: #02007B;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #F3B14E;
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 20px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .card-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #F3B14E, #ffd280);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .steps {
+      background: rgba(177, 203, 64, 0.15);
+      border-left: 4px solid #B1CB40;
+      padding: 32px;
+      border-radius: 16px;
+      margin-bottom: 40px;
+    }
+
+    .steps h2 {
+      color: #B1CB40;
+      margin-bottom: 24px;
+      font-size: 28px;
+    }
+
+    .step {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: #B1CB40;
+      color: #02007B;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      margin-bottom: 8px;
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    .step-content p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .feature h4 {
+      margin-bottom: 8px;
+      color: #F3B14E;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 36px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <svg viewBox="0 0 24 24">
+          <path d="M14 7h6m0 0v6m0-6L10 17M3 3v18h18" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h1>AgriFundi PWA Setup</h1>
+      <p class="subtitle">Transform your app into a Progressive Web App</p>
+    </div>
+
+    <div class="steps">
+      <h2>🚀 3-Step Setup</h2>
+      
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Check Your Status</h4>
+          <p>See what's already done and what needs to be completed</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Generate App Icons</h4>
+          <p>Click one button to create all 11 required icon sizes</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Download & Install</h4>
+          <p>Place icons in the /public/icons/ folder and you're done!</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="margin-bottom: 24px; text-align: center;">📱 Setup Tools</h2>
+    
+    <div class="card-grid">
+      <a href="/pwa-status.html" class="card">
+        <div class="card-icon">📊</div>
+        <h3>Check Status</h3>
+        <p>View your PWA setup progress and see what's remaining to complete</p>
+      </a>
+
+      <a href="/generate-icons.html" class="card">
+        <div class="card-icon">✨</div>
+        <h3>Generate Icons</h3>
+        <p>Automatically create all required app icons in the correct sizes</p>
+      </a>
+
+      <a href="/icon-generator.html" class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Advanced Generator</h3>
+        <p>Full-featured icon generator with preview and individual downloads</p>
+      </a>
+    </div>
+
+    <h2 style="margin: 48px 0 24px 0; text-align: center;">✨ What You Get</h2>
+    
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-icon">📱</div>
+        <h4>Installable</h4>
+        <p>Add to home screen on any device</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🔌</div>
+        <h4>Offline Support</h4>
+        <p>Works without internet connection</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h4>Lightning Fast</h4>
+        <p>Instant loading from cache</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🔄</div>
+        <h4>Auto Updates</h4>
+        <p>Notifies users of new versions</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🏠</div>
+        <h4>App Shortcuts</h4>
+        <p>Quick access to key features</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h4>Native Feel</h4>
+        <p>Runs like a real mobile app</p>
+      </div>
+    </div>
+
+    <div class="steps" style="margin-top: 48px; background: rgba(243, 177, 78, 0.15); border-left-color: #F3B14E;">
+      <h2 style="color: #F3B14E;">📚 Documentation</h2>
+      <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.9);">
+        <strong>Complete PWA Guide:</strong> /PWA_SETUP.md<br>
+        <strong>Icon Generation Guide:</strong> /ICON_GENERATION_GUIDE.md<br>
+        <strong>Icons README:</strong> /public/icons/README.md<br>
+        <strong>Color Scheme:</strong> /COLOR_SCHEME.md<br>
+        <strong>Images Reference:</strong> /IMAGES.md
+      </p>
+    </div>
+  </div>
+</body>
+</html>

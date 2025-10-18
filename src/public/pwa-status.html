@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFundi PWA Status</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #02007B 0%, #1a1a9f 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #F3B14E;
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+    }
+
+    .status-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .status-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border-left: 4px solid transparent;
+    }
+
+    .status-item.complete {
+      border-left-color: #B1CB40;
+    }
+
+    .status-item.incomplete {
+      border-left-color: #ff6b88;
+    }
+
+    .status-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .status-icon.complete {
+      background: #B1CB40;
+      color: #02007B;
+    }
+
+    .status-icon.incomplete {
+      background: rgba(255, 107, 136, 0.3);
+      color: #ff6b88;
+    }
+
+    .status-text {
+      flex: 1;
+    }
+
+    .status-label {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .status-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .action-button {
+      background: #F3B14E;
+      color: #02007B;
+      border: none;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(243, 177, 78, 0.4);
+      transition: all 0.2s;
+      display: inline-block;
+      text-decoration: none;
+      margin-right: 12px;
+      margin-bottom: 12px;
+    }
+
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(243, 177, 78, 0.5);
+      background: #f5ba5d;
+    }
+
+    .action-button.secondary {
+      background: #B1CB40;
+    }
+
+    .action-button.secondary:hover {
+      background: #c0d660;
+    }
+
+    .actions {
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 24px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #F3B14E, #B1CB40);
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 8px;
+    }
+
+    .info-box {
+      background: rgba(177, 203, 64, 0.15);
+      border-left: 4px solid #B1CB40;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 24px;
+    }
+
+    .info-box h3 {
+      color: #B1CB40;
+      margin-bottom: 12px;
+    }
+
+    .info-box p {
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 32px;
+      }
+
+      .status-card {
+        padding: 24px;
+      }
+
+      .action-button {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚜 AgriFundi PWA Status</h1>
+      <p class="subtitle">Progressive Web App Setup Checklist</p>
+    </div>
+
+    <div class="status-card">
+      <h2 style="margin-bottom: 8px;">Setup Progress</h2>
+      <div class="progress-text" id="progressText">Loading...</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+
+      <div class="status-grid">
+        <div class="status-item complete">
+          <div class="status-icon complete">✓</div>
+          <div class="status-text">
+            <div class="status-label">Web App Manifest</div>
+            <div class="status-desc">manifest.json configured with app metadata</div>
+          </div>
+        </div>
+
+        <div class="status-item complete">
+          <div class="status-icon complete">✓</div>
+          <div class="status-text">
+            <div class="status-label">Service Worker</div>
+            <div class="status-desc">Offline support and caching enabled</div>
+          </div>
+        </div>
+
+        <div class="status-item complete">
+          <div class="status-icon complete">✓</div>
+          <div class="status-text">
+            <div class="status-label">Install Prompt</div>
+            <div class="status-desc">Smart banner for app installation</div>
+          </div>
+        </div>
+
+        <div class="status-item complete">
+          <div class="status-icon complete">✓</div>
+          <div class="status-text">
+            <div class="status-label">Offline Fallback</div>
+            <div class="status-desc">Custom offline page created</div>
+          </div>
+        </div>
+
+        <div class="status-item complete">
+          <div class="status-icon complete">✓</div>
+          <div class="status-text">
+            <div class="status-label">Update Manager</div>
+            <div class="status-desc">Automatic update detection and notifications</div>
+          </div>
+        </div>
+
+        <div class="status-item incomplete" id="iconsStatus">
+          <div class="status-icon incomplete">⚠</div>
+          <div class="status-text">
+            <div class="status-label">App Icons</div>
+            <div class="status-desc">11 icon files need to be generated and placed in /public/icons/</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a href="/generate-icons.html" class="action-button">
+        ✨ Generate Icons Now
+      </a>
+      <a href="/icon-generator.html" class="action-button secondary">
+        🎨 Alternative Generator
+      </a>
+    </div>
+
+    <div class="info-box">
+      <h3>📋 Next Steps</h3>
+      <p>
+        1. Click "Generate Icons Now" above<br>
+        2. Download all icons as a ZIP file<br>
+        3. Extract and place the PNG files in /public/icons/ folder<br>
+        4. Your PWA will be 100% ready to install on any device!
+      </p>
+    </div>
+
+    <div class="info-box" style="background: rgba(243, 177, 78, 0.15); border-left-color: #F3B14E;">
+      <h3>✅ What's Already Working</h3>
+      <p>
+        Your app already has offline support, automatic updates, and install prompts! 
+        Once you add the icons, users will be able to install AgriFundi on their home screen 
+        and use it just like a native mobile app.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    async function checkIcons() {
+      const requiredIcons = [
+        'icon-72x72.png',
+        'icon-96x96.png',
+        'icon-128x128.png',
+        'icon-144x144.png',
+        'icon-152x152.png',
+        'icon-192x192.png',
+        'icon-384x384.png',
+        'icon-512x512.png',
+        'shortcut-work-orders.png',
+        'shortcut-tractors.png',
+        'shortcut-services.png'
+      ];
+
+      let existingIcons = 0;
+
+      for (const icon of requiredIcons) {
+        try {
+          const response = await fetch(`/icons/${icon}`, { method: 'HEAD' });
+          if (response.ok) {
+            existingIcons++;
+          }
+        } catch (e) {
+          // Icon doesn't exist
+        }
+      }
+
+      const allIconsExist = existingIcons === requiredIcons.length;
+      const progressPercent = ((5 + (allIconsExist ? 1 : 0)) / 6) * 100;
+
+      // Update progress
+      document.getElementById('progressFill').style.width = progressPercent + '%';
+      document.getElementById('progressText').textContent = 
+        `${Math.round(progressPercent)}% Complete (${5 + (allIconsExist ? 1 : 0)}/6 tasks)`;
+
+      // Update icons status
+      const iconsStatus = document.getElementById('iconsStatus');
+      if (allIconsExist) {
+        iconsStatus.className = 'status-item complete';
+        iconsStatus.innerHTML = `
+          <div class="status-icon complete">✓</div>
+          <div class="status-text">
+            <div class="status-label">App Icons</div>
+            <div class="status-desc">All 11 icons found! Your PWA is ready! 🎉</div>
+          </div>
+        `;
+      } else if (existingIcons > 0) {
+        iconsStatus.querySelector('.status-desc').textContent = 
+          `${existingIcons}/11 icons found. Generate the remaining ${11 - existingIcons} icons.`;
+      }
+
+      return allIconsExist;
+    }
+
+    // Check icons on load
+    checkIcons();
+  </script>
+</body>
+</html>
