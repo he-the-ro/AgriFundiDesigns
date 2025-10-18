@@ -26,7 +26,7 @@ import { Toaster } from "./components/ui/sonner";
 
 const slides = [
   {
-    image: "https://images.unsplash.com/photo-1665152998573-9ddafb89278f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBlcXVpcG1lbnQlMjBleGNhdmF0b3J8ZW58MXx8fHwxNzYwNjc2MTU4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "https://images.unsplash.com/photo-1665152998573-9ddafb89278f?auto=format&fit=crop&w=1080&q=80",
     title: "Manage Your Equipment",
     description: "Track service schedules, maintenance history, and equipment status all in one place.",
   },
