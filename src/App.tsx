@@ -59,12 +59,10 @@ export default function App() {
   const handleRegister = () => {
     setCurrentScreen("home");
   };
-
   const handleViewWorkOrderDetails = (workOrderId: string) => {
     setSelectedWorkOrderId(workOrderId);
     setCurrentScreen("work-order-details");
   };
-
   const handleWorkOrderStatusUpdate = (id: string, newStatus: string) => {
     // In a real app, this would update the backend
     console.log(`Work Order ${id} status updated to: ${newStatus}`);
